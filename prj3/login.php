@@ -37,7 +37,7 @@ if(isset($_GET["username"],$_GET["password"])){
 		$conn = new mysqli('localhost:8081','root','redhat','exam2013');
 //		mysqli_set_charset($conn, "utf8");
 //        $conn->query('set names utf8');
-		$conn->set_charset("utf8");
+		$conn->set_charset("gb2312");
 		if($conn->connect_error){
 			die("连接失败".$conn->connect_error);
 		}
@@ -56,11 +56,11 @@ if(isset($_GET["username"],$_GET["password"])){
 				$quarry1 = mysqli_query($conn,"select * from student where sno='$_GET[username]'");
 				$row1 = mysqli_fetch_assoc($quarry1);
 
-				if(($row["passwd"]==$_GET["password"])&&($row['role']=="瀛︾敓")){ //确定是不是学生账号 这个地方是乱码 直接引用的乱码显示的学生字符
+				if(($row["passwd"]==$_GET["password"])&&($row['role']=="学生")){ //确定是不是学生账号 这个地方是乱码 直接引用的乱码显示的学生字符
 					$_SESSION['username'] = $username;
 					$_SESSION['password'] = $password;
                     $_SESSION['role'] = "学生";
-                    $_SESSION['id'] = $row1['sname'];
+                    $_SESSION['id'] = $row1['sno'];
 //					var_dump($row);
 					//跳转登录界面
 					header("location:student_index.php");
@@ -77,7 +77,8 @@ if(isset($_GET["username"],$_GET["password"])){
 			{
 				$quarry = mysqli_query($conn,"select * from passwd where name='$_GET[username]'");
 				$row = mysqli_fetch_assoc($quarry);
-				if(($row["passwd"]==$_GET["password"])&&$row['role']=="鏁欏笀"){
+//				if(($row["passwd"]==$_GET["password"])&&$row['role']=="鏁欏笀"){
+				if(($row["passwd"]==$_GET["password"])&&$row['role']=="教师"){
 					$_SESSION['username'] = $username;
 					$_SESSION['password'] = $password;
 					$_SESSION['role'] = "教师";
@@ -98,7 +99,7 @@ if(isset($_GET["username"],$_GET["password"])){
 			{
 				$quarry = mysqli_query($conn,"select * from passwd where name='$_GET[username]'");
 				$row = mysqli_fetch_assoc($quarry);
-				if(($row["passwd"]==$_GET["password"])&&$row['role']=="鏁欏姟"){
+				if(($row["passwd"]==$_GET["password"])&&$row['role']=="教务"){
 					$_SESSION['username'] = $username;
 					$_SESSION['password'] = $password;
 					$_SESSION['role'] = "教务";

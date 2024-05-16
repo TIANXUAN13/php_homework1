@@ -8,7 +8,16 @@ else
 	echo "<font color='red' size='6px'>未登录 请返回登录</font>";
 }
 
+echo "<form>";
+echo "学生学号:"."<input type='number' value='请输入学生学号'></input>";
+echo "<input type='submit' value='查询'></input>";
+echo "</form>";
 
+
+echo "<form>";
+echo "教师ID:"."<input type='number' '></input>";
+echo "<input type='submit' value='查询'></input>";
+echo "</form>";
 
 //添加修改密码跳转链接
 echo "<p>";

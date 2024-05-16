@@ -1,45 +1,45 @@
 <?php
-session_start(); // È·±£sessionÒÑÆô¶¯
-header('Content-Type: text/html; charset=utf-8'); // Ìí¼ÓÕâÐÐ´úÂëÉùÃ÷ÏìÓ¦µÄ×Ö·û±àÂë
+session_start(); // ç¡®ä¿sessionå·²å¯åŠ¨
+header('Content-Type: text/html; charset=utf-8'); // æ·»åŠ è¿™è¡Œä»£ç å£°æ˜Žå“åº”çš„å­—ç¬¦ç¼–ç 
 
-// ¼ì²éÓÃ»§ÊÇ·ñÒÑµÇÂ¼
+// æ£€æŸ¥ç”¨æˆ·æ˜¯å¦å·²ç™»å½•
 if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     header("Location: login.php");
     exit();
 }
 else
 {
-	echo $_SESSION['id']."ÒÑµÇÂ¼"."<br>";
+	echo $_SESSION['id']."å·²ç™»å½•"."<br>";
 }
 
-// Êý¾Ý¿âÁ¬½Ó²¿·Ö±£³ÖÓëµÇÂ¼ÑéÖ¤ÏàÍ¬£¬µ«½¨ÒéÕâ²¿·Ö´úÂë¿ÉÒÔ³éÏóµ½µ¥¶ÀµÄÎÄ¼þÖÐ¸´ÓÃ
+// æ•°æ®åº“è¿žæŽ¥éƒ¨åˆ†ä¿æŒä¸Žç™»å½•éªŒè¯ç›¸åŒï¼Œä½†å»ºè®®è¿™éƒ¨åˆ†ä»£ç å¯ä»¥æŠ½è±¡åˆ°å•ç‹¬çš„æ–‡ä»¶ä¸­å¤ç”¨
 $conn = new mysqli('localhost:8081', 'root', 'redhat', 'exam2013');
 if ($conn->connect_error) {
-    die("Á¬½ÓÊ§°Ü " . $conn->connect_error);
+    die("è¿žæŽ¥å¤±è´¥ " . $conn->connect_error);
 }
-// ÎªÁË¼æÈÝÐÔ£¬¿ÉÒÔÔÚÕâÀïÉèÖÃ×Ö·û±àÂë
+// ä¸ºäº†å…¼å®¹æ€§ï¼Œå¯ä»¥åœ¨è¿™é‡Œè®¾ç½®å­—ç¬¦ç¼–ç 
 $conn->set_charset("utf8");
 
-// »ñÈ¡µ±Ç°µÇÂ¼Ñ§ÉúµÄÑ§ºÅ
+// èŽ·å–å½“å‰ç™»å½•å­¦ç”Ÿçš„å­¦å·
 $sno = $_SESSION['username'];
 
-// ²éÑ¯¸ÃÑ§ÉúËùÓÐ¿Î³ÌµÄ³É¼¨
+// æŸ¥è¯¢è¯¥å­¦ç”Ÿæ‰€æœ‰è¯¾ç¨‹çš„æˆç»©
 $query = "SELECT grade.cno, course.cname, grade.score FROM grade 
           INNER JOIN course ON grade.cno = course.cno 
           WHERE grade.sno = '$sno'";
 $result = $conn->query($query);
 
-// ¼ì²é²éÑ¯½á¹û
+// æ£€æŸ¥æŸ¥è¯¢ç»“æžœ
 if ($result->num_rows > 0) {
-    // Êä³ö±í¸ñ¿ªÊ¼²¿·Ö
+    // è¾“å‡ºè¡¨æ ¼å¼€å§‹éƒ¨åˆ†
     echo "<table border='1' style='width:30%;'>
           <tr>
-              <th>¿Î³ÌºÅ</th>
-              <th>¿Î³ÌÃû</th>
-              <th>·ÖÊý</th>
+              <th>è¯¾ç¨‹å·</th>
+              <th>è¯¾ç¨‹å</th>
+              <th>åˆ†æ•°</th>
           </tr>";
 
-    // ±éÀú²éÑ¯½á¹û²¢Êä³ö
+    // éåŽ†æŸ¥è¯¢ç»“æžœå¹¶è¾“å‡º
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
                 <td>" . $row["cno"] . "</td>
@@ -48,21 +48,21 @@ if ($result->num_rows > 0) {
               </tr>";
     }
 
-    // Êä³ö±í¸ñ½áÊø²¿·Ö
+    // è¾“å‡ºè¡¨æ ¼ç»“æŸéƒ¨åˆ†
     echo "</table>";
 } else {
-    echo "µ±Ç°µÇÂ¼Ñ§ÉúÔÝÎÞ³É¼¨¼ÇÂ¼¡£";
+    echo "å½“å‰ç™»å½•å­¦ç”Ÿæš‚æ— æˆç»©è®°å½•ã€‚";
 }
 echo "</table>";
-//Ìí¼ÓÐÞ¸ÄÃÜÂëÌø×ªÁ´½Ó
+//æ·»åŠ ä¿®æ”¹å¯†ç è·³è½¬é“¾æŽ¥
 echo "<p>";
-echo "<a href='Modify_password.php'>ÐÞ¸ÄÃÜÂë</a>";
+echo "<a href='Modify_password.php'>ä¿®æ”¹å¯†ç </a>";
 echo "</p>";
 
-// Ìí¼Ó·µ»ØÁ´½Óµ½±í¸ñÏÂ·½
-echo "<br><a href='login.php'>·µ»ØÊ×Ò³</a>";
+// æ·»åŠ è¿”å›žé“¾æŽ¥åˆ°è¡¨æ ¼ä¸‹æ–¹
+echo "<br><a href='login.php'>è¿”å›žé¦–é¡µ</a>";
 
-// ¹Ø±ÕÊý¾Ý¿âÁ¬½Ó
+// å…³é—­æ•°æ®åº“è¿žæŽ¥
 $conn->close();
 
 ?>
